@@ -1,0 +1,19 @@
+# Next.js workflows
+
+Start from the approved [project profile](../../assets/project-profile.md) and [feature plan](../../assets/feature-plan.md). Use version-matched conventions and update [living docs](../project-documentation.md) in the same change.
+
+| Workflow | Preconditions and decisions | Sequence and placement | Rules, docs and verification |
+| --- | --- | --- | --- |
+| Initialize or analyze an app | Approved framework or existing lockfile, host and routing architecture | Inventory versions and route tree. Scaffold or trace root layout, routes, providers and config. Review the client graph and platform needs. | WEB-NEXT-001, WEB-DEC-001. Update profile, structure and deployment. Run clean build and direct route checks. |
+| Create feature, page, layout or reusable component | Route, data owner, content and interaction boundary | Add route entry and metadata, compose server view, extract stable primitive or client island, add feedback boundaries. | WEB-NEXT-001, WEB-ARC-003. Update architecture, features and design system. Check direct navigation, hydration and keyboard. |
+| Build public site, landing page or dynamic content | Audience, locale, content contract, indexed route set | Compose shell and reusable sections, add distinct item routes, metadata, sitemap and robots. | WEB-SEO-001, WEB-UI-001. Update content, SEO and localization decisions. Check deployed status, canonicals, alternate URLs and mobile reflow. |
+| Select rendering and fetch strategy or integrate external API | Freshness, personalization, backend and host capabilities | Record route policy, put server credentials and decoding in server service, add browser adapter or handler only when needed. | WEB-NEXT-002, WEB-API-001, WEB-STATE-001. Update architecture and API. Verify cache scope, failure, invalidation and direct request. |
+| Implement auth, authorization, forms or security review | Session and operation contract, input schema, trusted origin | Bind form to approved backend or Action, enforce authorization in service and entry points, add accessible pending/errors, test unauthorized calls. | WEB-AUTH-001, WEB-FORM-001. Update authentication, API and feature docs. Verify validation, cross-user isolation, logout and duplicate submits. |
+| Configure locales, RTL, design system and motion | Locale and route registry, assets, type scales and interaction requirements | Add catalogs, root metadata, logical CSS and semantic tokens, then localized components and reduced-motion paths. | WEB-I18N-001, WEB-UI-001, WEB-UI-003. Update design system. Check keyboard, motion settings, locale parity and long labels. |
+| Optimize and validate | Reproducible baseline and target deployment | Check types, lint, test and build, inspect route classification and client payloads, run HTTP and browser smoke, measure Web Vitals and compare. | WEB-QA-001, WEB-PERF-001. Update testing and deployment. Record baseline, environment and verified limits. |
+
+## Deploy a Next.js application
+
+Select the host after classifying the routes. Use a Next-compatible server runtime for request rendering, Actions, runtime redirects or server-only reads at request time. Evaluate static export only if every route and required image, routing and data capability supports it. Match the Node runtime and lockfile in development, CI and hosting.
+
+In deployment configuration, separate build-time public values, build inputs and runtime secrets. Confirm preview indexing policy, upstream reachability, headers and cache behavior in the intended environment. Build once per promoted artifact where configuration allows, smoke-test static and dynamic routes and localized links, and record a rollback procedure in `docs/DEPLOYMENT.md`. Keep browser checks for hydration, navigation, accessibility and actual interaction distinct from HTTP checks.

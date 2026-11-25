@@ -1,0 +1,15 @@
+# Authentication, authorization and security
+
+## Identity lifecycle
+
+Define supported methods and how each is verified. Password flows need server-configured verification, reset, rate limits, and generic responses that limit account enumeration. For OTP, magic links and OAuth, permit only configured redirect destinations, validate next paths against same-origin allowlists, and complete the PKCE exchange using the same session context. Prevent open redirects across locale or multi-app callbacks. Add MFA and enforce the needed assurance level for sensitive operations when justified. Make profile provisioning idempotent. Design deletion around retention, active sessions, owned objects and audit requirements. Test expired/reused links, mismatched callback origin, session refresh, logout and account changes.
+
+Treat browser session state as UI state. Keep privileged keys in server-owned secret storage and project roles in trusted membership tables or admin-controlled claims. User-editable metadata is suitable for preferences. JWT membership can lag revocation, so use current DB checks for boundaries needing immediate revocation. Do not log auth headers, OTPs, signed links or raw contact info. Configure XSS defenses, escape user output, sanitize rich content, use CSP where applicable, and apply origin/CSRF controls to browser-cookie mutations. Explicit CORS rules govern browser access. Authorization remains mandatory for every caller. Rate-limit by appropriate caller and operation.
+
+## Resource access and verification
+
+For each exposed table review role grants and RLS together. Scope SELECT and DELETE via USING and INSERT via WITH CHECK. UPDATE needs visibility of previous rows and a WITH CHECK for resulting rows. Audit permissive policy OR combinations. Constrain columns separately with column grants or controlled write functions. Enable RLS transactionally alongside table creation and review grants for anon, authenticated and public. Prefer membership predicates that anchor both actor and row tenant. Check owner reassignment and membership revocation explicitly.
+
+Use invoker rights by default. Review every elevated function for necessity, qualification of all objects, a fixed safe search path, explicit execute revocation from PUBLIC and grants to named intended roles. Inside elevated functions verify verified caller identity and current resource permission before operating with bypass rights. Avoid publicly selectable elevated views. Review view behavior against installed PostgreSQL and restrict base table and view access. CORS, client route guards and filtered subscriptions are presentation or transport mechanisms.
+
+Record a matrix of actor, operation, resource and expected result. Include owner, peer, other tenant, anonymous, scoped administrator and inactive member. Assert affected rows and final state for denied writes. Cover direct calls to tables, RPCs, views, Storage and Realtime independently. Use synthetic real sessions in a disposable Supabase stack to verify identity propagation. Keep PostgreSQL-only tests labeled when Auth and gateway semantics are represented by stand-ins.

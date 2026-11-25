@@ -1,0 +1,7 @@
+# External API integration
+
+Use WEB-API-001, WEB-AUTH-001 and WEB-STATE-001. Document the version and deprecation policy, base URL per environment, identity scope, request/response types, timeouts, status model and pagination contract in the API integration document. For browser calls, verify origin and which values are safe to expose. Put confidential credentials and trusted operations in the server integration. Apply the authorization rules of the service and caller independently.
+
+Use Fetch for simple HTTP or reuse an approved centralized client. Put auth, timeout, cancellation and normalized error translation in the adapter. Place endpoint mappings in feature services and validate unknown outputs where failures affect correctness. Carry URL filters, sort and page through one normalized query contract. Set bounded retries for transient reads and retry writes only with a supported idempotency contract. Check rate limits and deadlines. Coordinate mutations with the cache owner.
+
+For uploads, validate size and type with the backend, surface pending and failure, and verify access to any returned references. For downloads, recheck scope and format, use safe filenames and clean up transient URLs. Verify schema changes, expiry, permission failures, malformed payloads, cancellation and retry with contract fixtures. See the [React adapter](react/data-and-identity.md), [Next.js adapter](next/data.md) and [inventory example](../assets/examples/README.md).

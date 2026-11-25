@@ -1,0 +1,14 @@
+# Advanced feature contracts
+
+Apply only to the relevant feature. These patterns combine existing evidence with recommended safeguards. Verify behavior in the target.
+
+| Domain | Responsibilities and failure handling | Validation |
+| --- | --- | --- |
+| Multiple audiences | Assign audience-specific shells, route groups, navigation, permissions and independent API checks. Share neutral primitives and contracts. Split deployments only when ownership, identity or releases justify it. Handle forbidden direct entry and preserve focus when switching shells. | Test direct routes, shared links, sequential users, tenant scope, keyboard navigation and role changes. |
+| Bulk operations | Define selected IDs versus all matching records with a stable filter snapshot. Document authorization per item, atomicity and undo. Require meaningful confirmation for destructive effects. Bound batches, record progress and per-item errors, and give retries a stable idempotency contract. | Test mixed permissions, stale selection, duplicate requests, cancellation, partial failure and repeat runs. |
+| Import and export | Validate type, size and schema server-side, preview mapping and duplicate handling, and authorize start and retrieval. Move large jobs to a bounded worker with progress and resumable failure. Scope exports and escape spreadsheet formula-leading values for the chosen format. | Test invalid mappings, malformed large files, duplicate delivery, cancellation and forbidden export. Label previews and announce progress accessibly. |
+| Dynamic fields | Keep typed field definitions and stable keys in the feature. Share visibility logic with validation and payload shaping. Decide whether hidden values are removed or retained by policy. Reject unknown inputs server-side. | Exercise hidden and reintroduced values, keyboard order, labels and announced validation errors. |
+| Multi-step forms | Give one owner responsibility for the draft, validate each step and revalidate all fields on submit. Preserve back navigation, protect persisted drafts and define expiry. Route recoverable errors to the relevant step and focus its heading or invalid field. | Test restart, resume, backward navigation, direct step entry, stale draft and repeated submit. |
+| Unsaved changes | Compare edits with the accepted snapshot. Use the router guard for in-app navigation and a scoped unload warning when supported. Keep recoverable drafts only under an explicit privacy policy and clear the guard on confirmed save or discard. | Test back, refresh, failed save, successful save, discard and stale draft recovery. |
+
+For dashboards, define metrics, time range and source before drawing KPI cards or charts. For public pages, order sections around verified user needs and claims. Add testimonials only from genuine supplied material. Coordinate analytics events with the project's consent policy and test the opted-out path.
