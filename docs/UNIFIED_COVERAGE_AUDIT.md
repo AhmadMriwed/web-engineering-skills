@@ -26,3 +26,5 @@ Coverage describes actionable guidance. Evidence describes representative static
 | Unsaved changes | S11 provides an upload guard. Added route, unload and sensitive draft decisions. | V-06 |
 
 All six now have actionable design guidance. End-to-end coverage remains partial until the corresponding backlog tests run.
+
+Phase 5.1 added focused browser evidence for executing a confirmed import through a synthetic server boundary and optional browser-local draft recovery. The original six domains remain partially verified against their full backlog acceptance criteria. See the [Phase 5.1 report](PHASE_5_1.md).

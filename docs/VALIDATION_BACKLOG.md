@@ -33,3 +33,36 @@ All items are open. P1 items cover security boundaries or release-blocking evide
 | R-03 | Reference production deployment security | No deployment certification in Phase 3 | Separate owner-approved review scope | Independently established evidence for deployment configuration and its stated limits | Deployment assurance | P1 | Open |
 
 Phase 4 expands the guidance for V-01 through V-06 and retains their open runtime status. V-17 uses the independent [Phase 5 plan](PHASE_5_VALIDATION_PLAN.md), including separate activation, reference loading and workflow evidence. The 17 reusable and three reference items retain their priorities.
+
+## Phase 5 reconciliation
+
+Evidence IDs below refer to artifact names in the external evaluation workspace. Original criteria and priorities above remain authoritative.
+
+| ID | Phase 5 result and environment | Disposition and remaining evidence |
+| --- | --- | --- |
+| V-01 | A browser and live REST tests plus advanced actor tests with synthetic roles. | PARTIALLY_VERIFIED. Cross-audience shells and tenant transitions pending. |
+| V-02 | Advanced domain and DOM tests passed filtered selection, partial action and retry. | PARTIALLY_VERIFIED. Confirmation and transaction behavior in a persistent target remain open. |
+| V-03 | Advanced tests passed invalid input, preview, scope and formula escape; Chrome performed a real download. | PARTIALLY_VERIFIED. Commit, recovery and large-file workflows open. |
+| V-04 | Advanced tests passed lot-code validation and clearing; Chrome checked the required field. | PARTIALLY_VERIFIED. Additional browser and service payload combinations open. |
+| V-05 | Advanced tests passed two-step gating, backward navigation and failed-save recovery; Chrome reached step two. | PARTIALLY_VERIFIED. Persistent draft resume open. |
+| V-06 | Advanced DOM guard tests passed; Chrome dismissed the native in-app confirmation and preserved the draft. | PARTIALLY_VERIFIED. Native unload and persistence open. |
+| V-07 | `browser-neutral.log` and `generated-browser.log` cover selected Chrome desktop, mobile, RTL and keyboard checks, and F has jsdom tests. | PARTIALLY_VERIFIED. Screen reader, broad responsive coverage and remaining states open. |
+| V-08 | `inventory-api.log` covers direct REST actor checks. `B-export-http.log` covers localized export. | PARTIALLY_VERIFIED. Host-specific deployment, production identity and broader cache behavior open. |
+| V-09 | `synthetic-postgres.log` passes local role and policy checks with stand-ins. | BLOCKED_BY_INFRASTRUCTURE for actual Auth/Data API. |
+| V-10 | Synthetic SQL policy checks only. | BLOCKED_BY_INFRASTRUCTURE for objects and signed access through Storage. |
+| V-11 | No Realtime service run. | BLOCKED_BY_INFRASTRUCTURE. |
+| V-12 | No Edge service run. | BLOCKED_BY_INFRASTRUCTURE. |
+| V-13 | React DOM and strict SDK compile rerun. | BLOCKED_BY_INFRASTRUCTURE for integrated Supabase React. |
+| V-14 | Neutral Next build/HTTP and D discovery. | BLOCKED_BY_INFRASTRUCTURE for actual authenticated sessions/cache and cookies. |
+| V-15 | E discovery, builds and loopback combined browser flow passed. | PARTIALLY_VERIFIED. Independent deployments and version skew open. |
+| V-16 | Neutral PostgreSQL migration and SDK compile rerun. | PARTIALLY_VERIFIED. Managed reset, upgrade and recovery open. |
+| V-17 | Actual Codex explicit and automatic reads, focused routing and independent projects. | PARTIALLY_VERIFIED across workloads and consumers. Claude Code unavailable. |
+| R-01 | No sanitized historical starting schema supplied. | REQUIRES_MORE_EVIDENCE. Reference replay not executed. |
+| R-02 | No replay catalog or effective actor checks from the reference. | REQUIRES_MORE_EVIDENCE. |
+| R-03 | Production infrastructure outside authorization. | NOT_EXECUTED. |
+
+## Phase 5.1 focused checks
+
+V-03 stays PARTIALLY_VERIFIED. The supplemental Chrome fixture verified a selected CSV file through preview, manager confirmation, mixed outcome and server readback after reload, and denied a direct operator commit. Persistence beyond the server process and production actor identity remain open.
+
+V-05 and V-06 stay PARTIALLY_VERIFIED. Browser-local optional draft recovery, actor/record key separation and clearing after local acceptance or discard passed. The existing wizard's persistent resumption, native unload and managed identities remain open. Other dispositions are unchanged. See the [Phase 5.1 report](PHASE_5_1.md).

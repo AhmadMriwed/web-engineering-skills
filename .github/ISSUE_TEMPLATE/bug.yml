@@ -1,0 +1,9 @@
+name: Bug report
+description: Report a reproducible issue, an installation failure, or a compatibility problem.
+body:
+  - type: textarea
+    attributes:
+      label: Version, environment, and reproduction
+      description: Include the skill and consumer versions, steps, expected behavior and actual result. Remove private data.
+    validations:
+      required: true

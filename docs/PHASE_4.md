@@ -1,5 +1,7 @@
 # Phase 4 consolidation report
 
+Phase 5.1 verified that the historical count of 30 included the table separator. The catalog contains 29 named routes.
+
 **PHASE_4_COMPLETE_READY_FOR_AGENT_VALIDATION**
 
 The canonical repository now provides one skill with conditional React, Next.js, external API, Supabase and combined-system guidance. The 20 existing rule IDs and historical evidence were preserved. Phase 5 is designed and awaits separate authorization.

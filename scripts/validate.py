@@ -1,5 +1,6 @@
 """Validate the draft skill and its local documentation links."""
 from pathlib import Path
+import argparse
 import re
 from urllib.parse import unquote
 
@@ -8,7 +9,60 @@ SKILL = ROOT / "web-engineering" / "SKILL.md"
 RULE_ID = r"WEB-(?!SRC-)[A-Z][A-Z0-9]*-\d{3}"
 
 
+TASK_HEADER = ("Task", "Required context and profile", "Rules and workflow",
+               "Output, validation and docs")
+
+
+def parse_task_routes(source, path, package_root):
+    """Validate the named rows of the canonical task table."""
+    routes, errors = [], []
+    seen = set()
+    found_header = found_separator = False
+    for number, line in enumerate(source.splitlines(), 1):
+        line = line.strip()
+        if not line.startswith("|"):
+            continue
+        cells = tuple(cell.strip() for cell in re.split(r"(?<!\\)\|", line[1:].removesuffix("|")))
+        if not any(cells):
+            continue
+        where = f"{path.name}:{number}"
+        if cells == TASK_HEADER:
+            if found_header:
+                errors.append(f"{where}: duplicate task header")
+            found_header = True
+            continue
+        if len(cells) == len(TASK_HEADER) and all(re.fullmatch(r":?-{3,}:?", cell) for cell in cells):
+            if not found_header or found_separator:
+                errors.append(f"{where}: unexpected task separator")
+            found_separator = True
+            continue
+        if not found_separator or len(cells) != len(TASK_HEADER) or not all(cells):
+            errors.append(f"{where}: malformed task entry")
+            continue
+        name = cells[0]
+        if not re.fullmatch(r"[A-Za-z0-9][A-Za-z0-9 -]*", name):
+            errors.append(f"{where}: invalid task name: {name}")
+            continue
+        identifier = re.sub(r"[-\s]+", "-", name.casefold())
+        if identifier in seen:
+            errors.append(f"{where}: duplicate task route: {name}")
+            continue
+        seen.add(identifier)
+        routes.append(name)
+        for target in re.findall(r"\]\(([^)]+)\)", line):
+            resource = unquote(target.partition("#")[0])
+            destination = (path.parent / resource).resolve()
+            if not resource or not destination.is_relative_to(package_root) or not destination.is_file():
+                errors.append(f"{where}: invalid task reference: {target}")
+    if not found_header or not found_separator:
+        errors.append(f"{path.name}: missing task table header or separator")
+    return routes, errors
+
+
 def main():
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--list-routes", action="store_true")
+    options = parser.parse_args()
     errors = []
     if not SKILL.is_file():
         errors.append("Missing skill entry point")
@@ -75,18 +129,23 @@ def main():
     if len(definitions) != 20:
         errors.append(f"Expected 20 stable rules, found {len(definitions)}")
     tasks = SKILL.parent / "references" / "tasks.md"
+    routes = []
     if not tasks.is_file():
         errors.append("Missing task routing table")
     else:
-        rows = [line for line in tasks.read_text().splitlines() if line.startswith("| ")][1:]
-        if len(rows) != 30:
-            errors.append(f"Expected 30 task routes, found {len(rows)}")
+        routes, route_errors = parse_task_routes(tasks.read_text(), tasks, SKILL.parent.resolve())
+        errors.extend(route_errors)
+        if len(routes) != 29:
+            errors.append(f"Expected 29 named task routes, found {len(routes)}")
 
     for rule in sorted(citations - definitions.keys()):
         errors.append(f"Undefined evidence rule {rule}")
     if errors:
         raise SystemExit("\n".join(errors))
-    print(f"Validated skill metadata, local links, audit evidence IDs and {len(definitions)} rule IDs.")
+    if options.list_routes:
+        print("\n".join(routes))
+    else:
+        print(f"Validated skill metadata, links, evidence, {len(definitions)} rules and {len(routes)} task routes.")
 
 
 if __name__ == "__main__":

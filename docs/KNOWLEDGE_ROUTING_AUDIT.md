@@ -1,6 +1,6 @@
 # Knowledge routing audit
 
-The [task table](../web-engineering/references/tasks.md) provides 30 routes. An agent reads the entry point then relevant rows and sections. Whole-file estimates below use UTF-8 bytes divided by four, rounded up. They exclude the user's task, tool output and repository source. These estimates do not measure model token usage. All paths omit extraction reports, unrelated profiles and unrelated examples. Open standards and living docs sections selectively when implementation changes a boundary.
+The [task table](../web-engineering/references/tasks.md) provides 29 named routes. An agent reads the entry point then relevant rows and sections. Whole-file estimates below use UTF-8 bytes divided by four, rounded up. They exclude the user's task, tool output and repository source. These estimates do not measure model token usage. All paths omit extraction reports, unrelated profiles and unrelated examples. Open standards and living docs sections selectively when implementation changes a boundary.
 
 | Task | Required references after entry point and task row | Conditional reads | Potential overlap or ambiguity |
 | --- | --- | --- | --- |

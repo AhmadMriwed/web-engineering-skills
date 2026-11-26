@@ -1,0 +1,9 @@
+name: Engineering guidance
+description: Suggest a feature or report guidance that is incomplete or contradictory.
+body:
+  - type: textarea
+    attributes:
+      label: Affected profile, task or rule
+      description: Describe the use case, evidence, proposed change and a validation method.
+    validations:
+      required: true
